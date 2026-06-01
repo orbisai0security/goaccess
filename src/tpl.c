@@ -601,10 +601,11 @@ tpl_map_va (char *fmt, va_list ap) {
     goto fail;
 
   /* copy the format string, save for convenience */
-  ((tpl_root_data *) (root->data))->fmt = tpl_hook.malloc (strlen (fmt) + 1);
+  size_t fmt_len = strlen (fmt);
+  ((tpl_root_data *) (root->data))->fmt = tpl_hook.malloc (fmt_len + 1);
   if (((tpl_root_data *) (root->data))->fmt == NULL)
     fatal_oom ();
-  memcpy (((tpl_root_data *) (root->data))->fmt, fmt, strlen (fmt) + 1);
+  memcpy (((tpl_root_data *) (root->data))->fmt, fmt, fmt_len + 1);
 
   return root;
 
