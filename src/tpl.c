@@ -598,16 +598,18 @@ tpl_map_va (char *fmt, va_list ap) {
     c++;
   }
   if (lparen_level != 0)
+    goto fail;
 
-
-
-
-
-
-
-
-
-
+  /* copy the format string, save for convenience */
+  {
+    size_t fmt_len = strlen (fmt);
+    if (fmt_len == SIZE_MAX)
+      goto fail;
+    ((tpl_root_data *) (root->data))->fmt = tpl_hook.malloc (fmt_len + 1);
+    if (((tpl_root_data *) (root->data))->fmt == NULL)
+      fatal_oom ();
+    memcpy (((tpl_root_data *) (root->data))->fmt, fmt, fmt_len + 1);
+  }
 
   return root;
 
